@@ -35,7 +35,7 @@ describe('InvoiceRepository test', () => {
                 complement: 'Casa Verde',
                 city: 'Criciúma',
                 state: 'SC',
-                zipcode: '88888-888',
+                zipCode: '88888-888',
                 items: [
                     {
                         id: '1',
@@ -88,7 +88,7 @@ describe('InvoiceRepository test', () => {
         expect(invoiceData.complement).toBe(invoice.address.complement);
         expect(invoiceData.city).toBe(invoice.address.city);
         expect(invoiceData.state).toBe(invoice.address.state);
-        expect(invoiceData.zipcode).toBe(invoice.address.zipCode);
+        expect(invoiceData.zipCode).toBe(invoice.address.zipCode);
         expect(invoiceData.items[0].name).toBe(invoice.items[0].name);
         expect(invoiceData.items[0].price).toBe(invoice.items[0].price);
     })

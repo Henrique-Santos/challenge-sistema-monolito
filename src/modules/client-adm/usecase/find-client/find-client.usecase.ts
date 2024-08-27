@@ -1,4 +1,3 @@
-import Address from "../../../@shared/domain/value-object/address"
 import ClientGateway from "../../gateway/client.gateway"
 import { FindClientUseCaseInputDto, FindClientUseCaseOutputDto } from "./find-client.usecase.dto"
 
@@ -19,14 +18,12 @@ export default class FindClientUseCase {
         name: result.name,
         email: result.email,
         document: result.document,
-        address: new Address(
-          result.address.street,
-          result.address.number,
-          result.address.complement,
-          result.address.city,
-          result.address.state,
-          result.address.zipCode,
-        ),
+        street: result.street,
+        number: result.number,
+        complement: result.complement,
+        city: result.city,
+        state: result.state,
+        zipCode: result.zipCode,
         createdAt: result.createdAt,
         updatedAt: result.updatedAt
       }

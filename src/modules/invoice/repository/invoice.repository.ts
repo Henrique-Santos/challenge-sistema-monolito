@@ -20,7 +20,7 @@ export default class InvoiceRepository implements InvoiceGateway {
                 invoice.complement,
                 invoice.city,
                 invoice.state,
-                invoice.zipcode,
+                invoice.zipCode,
               ),
               items: invoice.items.map(item => (new InvoiceItems({ id: new Id(item.id), name: item.name, price: item.price}))),
               createdAt: invoice.createdAt,
@@ -39,7 +39,7 @@ export default class InvoiceRepository implements InvoiceGateway {
                 complement: input.address.complement,
                 city: input.address.city,
                 state: input.address.state,
-                zipcode: input.address.zipCode,
+                zipCode: input.address.zipCode,
                 items: input.items.map(item => ({ id: item.id.id, name: item.name, price: item.price})),
                 updatedAt: input.updatedAt,
                 createdAt: input.createdAt

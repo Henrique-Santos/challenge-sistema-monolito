@@ -90,7 +90,7 @@ describe('Invoice facade test', () => {
         expect(invoiceData.complement).toBe(input.complement);
         expect(invoiceData.city).toBe(input.city);
         expect(invoiceData.state).toBe(input.state);
-        expect(invoiceData.zipcode).toBe(input.zipCode);
+        expect(invoiceData.zipCode).toBe(input.zipCode);
         expect(invoiceData.items[0].name).toBe(input.items[0].name);
         expect(invoiceData.items[0].price).toBe(input.items[0].price);
     })
