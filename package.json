@@ -6,7 +6,7 @@
     "test": "npm run tsc -- --noEmit && jest",
     "tsc": "tsc",
     "dev": "nodemon src/infrastructure/api/server.ts",
-    "migrate": "node -r ts-node/register/transpile-only ./src/migrations/config/migrator-cli.ts"
+    "migrate": "node -r ts-node/register/transpile-only ./src/infrastructure/database/migrations/config/migrator-cli.ts" 
   },
   "keywords": [],
   "author": "",
