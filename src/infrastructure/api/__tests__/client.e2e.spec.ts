@@ -1,14 +1,36 @@
+import { Sequelize } from "sequelize-typescript";
 import { ClientModel } from "../../../modules/client-adm/repository/client.model";
-import { sequelize, app } from "../express";
+import { app } from "../express";
 import request from "supertest";
+import { Umzug } from "umzug";
+import { ProductModel as ProductModelAdm } from "../../../modules/product-adm/repository/product.model";
+import { ProductModel as ProductModelCatalog } from "../../../modules/store-catalog/repository/product.model";
+import { migrator } from "../../database/migrations/config/migrator";
 
 describe('E2E test for client', () => {
 
+    let sequelize: Sequelize
+
+    let migration: Umzug<any>
+
     beforeEach(async () => {
-        await sequelize.sync({ force: true })
+        sequelize = new Sequelize({
+            dialect: 'sqlite',
+            storage: ":memory:",
+            logging: false
+        })
+          
+        sequelize.addModels([ProductModelAdm, ProductModelCatalog, ClientModel])
+        migration = migrator(sequelize)
+        await migration.up()
     })
 
-    afterAll(async () => {
+    afterEach(async () => {
+        if (!migration || !sequelize) {
+            return 
+        }
+        migration = migrator(sequelize)
+        await migration.down()
         await sequelize.close()
     })
 

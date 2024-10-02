@@ -1,14 +1,36 @@
-import { ProductModel } from "../../../modules/product-adm/repository/product.model";
+import { Sequelize } from "sequelize-typescript";
+import { ProductModel as ProductModelAdm } from "../../../modules/product-adm/repository/product.model";
+import { ProductModel as ProductModelCatalog } from "../../../modules/store-catalog/repository/product.model";
 import { sequelize, app } from "../express";
 import request from "supertest";
+import { Umzug } from "umzug";
+import { migrator } from "../../database/migrations/config/migrator";
+import { ClientModel } from "../../../modules/client-adm/repository/client.model";
 
 describe('E2E test for product', () => {
 
+	let sequelize: Sequelize
+
+    let migration: Umzug<any>
+
     beforeEach(async () => {
-        await sequelize.sync({ force: true })
+        sequelize = new Sequelize({
+            dialect: 'sqlite',
+            storage: ":memory:",
+            logging: false
+        })
+          
+        sequelize.addModels([ProductModelAdm, ProductModelCatalog, ClientModel])
+        migration = migrator(sequelize)
+        await migration.up()
     })
 
-    afterAll(async () => {
+    afterEach(async () => {
+        if (!migration || !sequelize) {
+        	return 
+        }
+        migration = migrator(sequelize)
+        await migration.down()
         await sequelize.close()
     })
 
@@ -26,7 +48,7 @@ describe('E2E test for product', () => {
 			.post('/product')
 			.send(input);
 
-		const product = await ProductModel.findOne({ where: { id: "1p" } })
+		const product = await ProductModelAdm.findOne({ where: { id: "1p" } })
 		
 		expect(response.status).toBe(200)
 		// expect(product.id).toBeDefined()
