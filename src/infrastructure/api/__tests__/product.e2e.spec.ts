@@ -1,6 +1,5 @@
 import { Sequelize } from "sequelize-typescript";
 import { ProductModel as ProductModelAdm } from "../../../modules/product-adm/repository/product.model";
-import { ProductModel as ProductModelCatalog } from "../../../modules/store-catalog/repository/product.model";
 import { sequelize, app } from "../express";
 import request from "supertest";
 import { Umzug } from "umzug";
@@ -20,9 +19,10 @@ describe('E2E test for product', () => {
             logging: false
         })
           
-        sequelize.addModels([ProductModelAdm, ProductModelCatalog, ClientModel])
+        sequelize.addModels([ProductModelAdm, ClientModel])
         migration = migrator(sequelize)
         await migration.up()
+		await sequelize.sync();
     })
 
     afterEach(async () => {
@@ -32,6 +32,7 @@ describe('E2E test for product', () => {
         migration = migrator(sequelize)
         await migration.down()
         await sequelize.close()
+		
     })
 
     it('should create a product', async () => {

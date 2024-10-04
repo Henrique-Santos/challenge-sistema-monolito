@@ -23,6 +23,7 @@ describe('E2E test for client', () => {
         sequelize.addModels([ProductModelAdm, ProductModelCatalog, ClientModel])
         migration = migrator(sequelize)
         await migration.up()
+        await sequelize.sync();
     })
 
     afterEach(async () => {
