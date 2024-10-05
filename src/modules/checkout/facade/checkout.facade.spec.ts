@@ -6,25 +6,37 @@ import CheckoutRepository from "../repository/checkout.repository"
 import PlaceOrderUseCase from "../usecase/place-order/place-order.usecase"
 import CheckoutFacade from "./checkout.facade"
 import { PlaceOrderFacadeInputDto } from "./checkout.facade.interface"
+import { Umzug } from "umzug"
+import { migrator } from "../../../infrastructure/database/migrations/config/migrator"
+import { ProductModel as ProductModelAdm } from "../../../modules/product-adm/repository/product.model";
 
 describe('Checkout facade test', () => {
     let sequelize: Sequelize
   
+    let migration: Umzug<any>
+
     beforeEach(async () => {
       sequelize = new Sequelize({
-        dialect: 'sqlite',
-        storage: ':memory:',
-        logging: false,
-        sync: { force: true }
+          dialect: 'sqlite',
+          storage: ":memory:",
+          logging: false
       })
-  
-      sequelize.addModels([OrderModel, ClientModel, ProductModel])
-      await sequelize.sync()
-    })
-  
-    afterEach(async () => {
+        
+      sequelize.addModels([ProductModelAdm, ClientModel, OrderModel, ProductModel])
+      migration = migrator(sequelize)
+      await migration.up()
+  await sequelize.sync();
+  })
+
+  afterEach(async () => {
+      if (!migration || !sequelize) {
+        return 
+      }
+      migration = migrator(sequelize)
+      await migration.down()
       await sequelize.close()
-    })
+  
+  })
 
     it('should generate a order', async () => {
       const client = {
