@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import { ProductModel as ProductModelAdm } from "../../../modules/product-adm/repository/product.model";
-import { sequelize, app } from "../express";
+import { app } from "../express";
 import request from "supertest";
 import { Umzug } from "umzug";
 import { migrator } from "../../database/migrations/config/migrator";

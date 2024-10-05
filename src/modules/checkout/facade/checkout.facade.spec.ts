@@ -25,7 +25,7 @@ describe('Checkout facade test', () => {
       sequelize.addModels([ProductModelAdm, ClientModel, OrderModel, ProductModel])
       migration = migrator(sequelize)
       await migration.up()
-  await sequelize.sync();
+      await sequelize.sync();
   })
 
   afterEach(async () => {
@@ -35,7 +35,6 @@ describe('Checkout facade test', () => {
       migration = migrator(sequelize)
       await migration.down()
       await sequelize.close()
-  
   })
 
     it('should generate a order', async () => {
